@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parserOptions": {
+    "parser": "@typescript-eslint/parser"
+  },
+  "rules": {
+    "indent": ["off"],
+    "no-useless-constructor": ["off"],
+    "semi": ["off"],
+    "space-before-function-paren": ["off"],
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/semi": ["error"],
+    "@typescript-eslint/space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "always"
+    }],
+    "@typescript-eslint/explicit-member-accessibility": ["error"],
+    "@typescript-eslint/interface-name-prefix": ["error", {
+      "prefixWithI": "always"
+    }],
+    "@typescript-eslint/member-ordering": ["error"]
+  }
+}
