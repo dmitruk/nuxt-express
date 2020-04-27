@@ -4,7 +4,7 @@ import { IMiddleware } from './interfaces';
 import { createExpressApp } from './express-app';
 import { createFsWatcher } from './fs-watcher';
 
-const nuxtExpressModule: Module<string | string[] | IMiddleware | IMiddleware[]> = function(moduleOptions) {
+const nuxtExpressModule: Module<string | string[] | IMiddleware | IMiddleware[]> = function(moduleOptions?) {
   const middlewares = moduleOptions ? normalizeMiddleware(this, moduleOptions) : [];
 
   if (!middlewares.length) {

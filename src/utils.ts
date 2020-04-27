@@ -17,30 +17,34 @@ export function normalizeMiddleware(
   nuxtModule: ModuleThis,
   middleware?: string | string[] | IMiddleware | IMiddleware[]
 ): INormalizedMiddleware[] {
-  const normalizedMiddlewares: INormalizedMiddleware[] = [];
-
   if (!middleware) {
-    return normalizedMiddlewares;
+    return [];
   }
 
   if (Array.isArray(middleware)) {
+    const normalizedMiddlewares: INormalizedMiddleware[] = [];
+
     for (const m of middleware) {
       normalizedMiddlewares.push(...normalizeMiddleware(nuxtModule, m));
     }
-  } else {
-    const handlerPath = nuxtModule.nuxt.resolver.resolvePath(typeof middleware === 'string' ? middleware : middleware.handler);
-    const handlerPathIsDir = Fs.statSync(handlerPath).isDirectory();
-    const watchPath = handlerPathIsDir ? handlerPath : Path.dirname(handlerPath);
 
-    normalizedMiddlewares.push({
-      handler: typeof middleware === 'string' ? middleware : middleware.handler,
-      path: (typeof middleware === 'string' || !middleware.path) ? '/' : middleware.path,
-      member: (typeof middleware === 'string' || !middleware.member) ? 'default' : middleware.member,
-      watch: (typeof middleware === 'string' || !middleware.watch)
-        ? [watchPath]
-        : [watchPath, ...normalizePath(nuxtModule, middleware.watch)]
-    });
+    return normalizedMiddlewares;
   }
 
-  return normalizedMiddlewares;
+  if (typeof middleware !== 'string' && !middleware.handler) {
+    return [];
+  }
+
+  const handlerPath = nuxtModule.nuxt.resolver.resolvePath(typeof middleware === 'string' ? middleware : middleware.handler);
+  const handlerPathIsDir = Fs.statSync(handlerPath).isDirectory();
+  const watchPath = handlerPathIsDir ? handlerPath : Path.dirname(handlerPath);
+
+  return [{
+    handler: typeof middleware === 'string' ? middleware : middleware.handler,
+    path: (typeof middleware === 'string' || !middleware.path) ? '/' : middleware.path,
+    member: (typeof middleware === 'string' || !middleware.member) ? 'default' : middleware.member,
+    watch: (typeof middleware === 'string' || !middleware.watch)
+      ? [watchPath]
+      : [watchPath, ...normalizePath(nuxtModule, middleware.watch)]
+  }];
 }
