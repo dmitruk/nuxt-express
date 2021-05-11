@@ -2,6 +2,10 @@
   "name": "nuxt-express",
   "version": "1.0.1",
   "description": "Nuxt.js Express module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmitruk/nuxt-express.git"
+  },
   "main": "lib/module.js",
   "types": "lib/module.d.ts",
   "scripts": {
